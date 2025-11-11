@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>The Lightbearer - Tablero de Equipo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+<div class="app-container">
+    <header>
+        <div>
+            <h1>The Lightbearer - Control de Antorchas</h1>
+            <p>Tablero local para tu equipo. Filas = personajes, columnas = ciudades/antorchas.</p>
+        </div>
+        <div class="header-right">
+            <div class="badge">Localhost</div>
+            {% if is_admin %}
+                <a href="{{ url_for('logout') }}" class="auth-btn logout">Cerrar sesión</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="auth-btn login">Iniciar sesión</a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% if is_admin %}
+    <!-- Formulario: agregar personaje (solo admin) -->
+    <section class="card">
+        <h2>Agregar personaje</h2>
+        <form id="addCharacterForm">
+            <input type="text" id="charName" placeholder="Nombre del personaje" required>
+            <input type="number" id="charLevel" placeholder="Nivel" min="0">
+            <button type="submit">Agregar</button>
+        </form>
+    </section>
+    {% else %}
+    <!-- Aviso solo lectura -->
+    <section class="card">
+        <h2>Vista solo lectura</h2>
+        <p style="font-size:14px;color:#9ca3af;">
+            Estás viendo el progreso del equipo en modo espectador.
+            Para administrar personajes y marcar antorchas, inicia sesión como administrador.
+        </p>
+    </section>
+    {% endif %}
+
+    <!-- Filtros -->
+    <section class="card filters">
+        <div>
+            <label for="searchName">Buscar personaje:</label>
+            <input type="text" id="searchName" placeholder="Nombre o parte del nombre">
+        </div>
+
+        <div>
+            <label for="cityFilter">Ciudad:</label>
+            <select id="cityFilter">
+                <option value="all">Todas</option>
+                {% for city in cities %}
+                    <option value="{{ city }}">{{ city }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Barra de filtros por estado + contador -->
+        <div class="status-filter-wrapper">
+            <div class="status-filter">
+                <span class="status-pill active" data-status="all">Todos</span>
+                <span class="status-pill" data-status="pending">Pendientes</span>
+                <span class="status-pill" data-status="complete">Completados</span>
+            </div>
+            <div class="status-count">
+                <span id="totalCount" class="status-count-pill">Total: 0</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tablero -->
+    <section class="card">
+        <div class="table-wrapper">
+            <table id="boardTable">
+                <thead>
+                <tr>
+                    <th>Personaje</th>
+                    <th>Lvl</th>
+                    {% for city in cities %}
+                        <th class="city-col" data-city="{{ city }}">{{ city }}</th>
+                    {% endfor %}
+                    {% if is_admin %}
+                        <th>Acciones</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody id="boardBody">
+                <!-- Se llena con JS -->
+                </tbody>
+            </table>
+        </div>
+        <div class="legend">
+            <span class="dot done"></span> Ciudad completada ·
+            <span class="dot pending"></span> Pendiente ·
+            <span class="tag complete-row">Fila verde = personaje con todas las ciudades completas</span>
+        </div>
+    </section>
+</div>
+
+<script>
+    const CITIES = {{ cities | tojson }};
+    const IS_ADMIN = {{ 'true' if is_admin else 'false' }};
+</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
