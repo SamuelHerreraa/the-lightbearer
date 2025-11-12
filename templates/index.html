@@ -14,6 +14,7 @@
         </div>
         <div class="header-right">
             <div class="badge">Online</div>
+            <div id="liveClock" class="live-clock">Monterrey: --:--</div>
             {% if is_admin %}
                 <a href="{{ url_for('logout') }}" class="auth-btn logout">Cerrar sesión</a>
             {% else %}
@@ -21,6 +22,17 @@
             {% endif %}
         </div>
     </header>
+
+    <!-- Timer Global -->
+    <section class="card timer-global" id="globalTimer" style="display:none;">
+        <div class="timer-content">
+            <div class="timer-label">Próxima ronda ideal:</div>
+            <div class="timer-time" id="nextRoundTime">--:--</div>
+            <div class="timer-countdown" id="countdownDisplay">Esperando primer check en Yalahar...</div>
+            <div class="timer-risk" id="riskWarning"></div>
+        </div>
+    </section>
+
 
     <!-- Grid de criaturas / ciudades Lightbearer -->
     <section class="card lb-creatures">
@@ -182,32 +194,32 @@
     </section>
 </div>
 
+<!-- ... resto del HTML ... -->
+
 <script>
     const CITIES = {{ cities | tojson }};
     const IS_ADMIN = {{ 'true' if is_admin else 'false' }};
 </script>
 
-<!-- Firebase SDK (compat, expone `firebase` global) -->
-<!-- USA ESTOS (compat mode) -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database-compat.js"></script>
 
 <script>
-  // ⚠️ PON AQUÍ TU CONFIG REAL DE FIREBASE
   const firebaseConfig = {
-  apiKey: "AIzaSyDpmJMfSMJ8Hh7mm-QVgh8ftb9OxauHUYs",
-  authDomain: "lightbearer-dashboard.firebaseapp.com",
-  projectId: "lightbearer-dashboard",
-  storageBucket: "lightbearer-dashboard.firebasestorage.app",
-  messagingSenderId: "578461312567",
-  appId: "1:578461312567:web:9d16df22fcab386a5241b2"
+    apiKey: "AIzaSyDpmJMfSMJ8Hh7mm-QVgh8ftb9OxauHUYs",
+    authDomain: "lightbearer-dashboard.firebaseapp.com",
+    projectId: "lightbearer-dashboard",
+    storageBucket: "lightbearer-dashboard.firebasestorage.app",
+    messagingSenderId: "578461312567",
+    appId: "1:578461312567:web:9d16df22fcab386a5241b2"
   };
 
-if (typeof firebase !== 'undefined') {
-    firebase.initializeApp(firebaseConfig);
-    console.log("Firebase inicializado correctamente");
+  if (typeof firebase !== 'undefined') {
+      firebase.initializeApp(firebaseConfig);
+      console.log("Firebase inicializado correctamente");
   } else {
-    console.error("Firebase no disponible");
+      console.error("Firebase no disponible");
   }
 </script>
 

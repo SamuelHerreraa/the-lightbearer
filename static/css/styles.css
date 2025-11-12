@@ -592,3 +592,132 @@ td.level-cell {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+
+/* Timer Global */
+.timer-global {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid #facc15;
+    padding: 16px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(250, 204, 21, 0.2);
+}
+
+.timer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.timer-label {
+    font-size: 14px;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.timer-time {
+    font-size: 28px;
+    font-weight: 700;
+    color: #facc15;
+    letter-spacing: 0.5px;
+}
+
+.timer-countdown {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.timer-risk {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Reloj en vivo */
+.live-clock {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #22c55e;
+    background: #0f172a;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #22c55e;
+}
+
+/* Botón forzar hora */
+.force-time-btn {
+    background: #1e293b;
+    color: #60a5fa;
+    border: 1px solid #60a5fa;
+    font-size: 11px;
+    padding: 4px 8px;
+}
+
+.force-time-btn:hover {
+    background: #172554;
+}
+
+
+/* Reloj en vivo */
+.live-clock {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #22c55e;
+    background: #0f172a;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #22c55e;
+    margin-right: 10px;
+}
+
+/* Timer Global */
+.timer-global {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid #facc15;
+    padding: 16px 20px;
+    border-radius: 16px;
+    margin: 20px 0;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(250, 204, 21, 0.2);
+}
+
+.timer-content { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 6px; 
+}
+.timer-label { 
+    font-size: 14px; 
+    color: #94a3b8; 
+    font-weight: 500; 
+}
+.timer-time { 
+    font-size: 28px; 
+    font-weight: 700; 
+    color: #facc15; 
+}
+.timer-countdown { 
+    font-size: 18px; 
+    font-weight: 600; 
+}
+.timer-risk { 
+    font-size: 14px; 
+    font-weight: 500; 
+}
+
+/* Botón Reloj */
+.force-time-btn {
+    background: #1e293b;
+    color: #60a5fa;
+    border: 1px solid #60a5fa;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-right: 4px;
+}
+.force-time-btn:hover { 
+    background: #172554; 
+}
