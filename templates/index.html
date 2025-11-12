@@ -22,6 +22,96 @@
         </div>
     </header>
 
+    <!-- Grid de criaturas / ciudades Lightbearer -->
+    <section class="card lb-creatures">
+        <h2>Zonas &amp; Criaturas del evento</h2>
+        <p class="lb-subtitle">
+            Referencia rápida de cada antorcha: ciudad y criatura asociada.
+        </p>
+        <div class="lb-creatures-grid">
+            <!-- 1 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/yalahar.gif') }}" alt="Yalahar - Midnight Spawn">
+                </div>
+                <div class="lb-label-city">Yalahar</div>
+                <div class="lb-label-mob">Duskbringer</div>
+            </div>
+            <!-- 2 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/hellgate.gif') }}" alt="Hellgate - Demon">
+                </div>
+                <div class="lb-label-city">Hellgate</div>
+                <div class="lb-label-mob">Nightslayer</div>
+            </div>
+            <!-- 3 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/ankrahmun.gif') }}" alt="Ankrahmun - Sand Creature">
+                </div>
+                <div class="lb-label-city">Ankrahmun</div>
+                <div class="lb-label-mob">Doomsday Cultist</div>
+            </div>
+            <!-- 4 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/darashia.gif') }}" alt="Darashia - Dragon Lord">
+                </div>
+                <div class="lb-label-city">Darashia</div>
+                <div class="lb-label-mob">Acolyte of Darkness</div>
+            </div>
+            <!-- 5 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/edron.gif') }}" alt="Edron - Grim Reaper">
+                </div>
+                <div class="lb-label-city">Edron</div>
+                <div class="lb-label-mob">Herald of Gloom</div>
+            </div>
+            <!-- 6 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/kazordoon.gif') }}" alt="Kazordoon - Dwarf Guard">
+                </div>
+                <div class="lb-label-city">Kazordoon</div>
+                <div class="lb-label-mob">Bride of Night</div>
+            </div>
+            <!-- 7 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/goroma.gif') }}" alt="Goroma - Hydra">
+                </div>
+                <div class="lb-label-city">Goroma</div>
+                <div class="lb-label-mob">Shadow Hound</div>
+            </div>
+            <!-- 8 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/svargrond.gif') }}" alt="Svargrond - Frost Giant">
+                </div>
+                <div class="lb-label-city">Svargrond</div>
+                <div class="lb-label-mob">Bane of Light</div>
+            </div>
+            <!-- 9 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/forbidden_island.gif') }}" alt="Forbidden Island - Quara Mantassin">
+                </div>
+                <div class="lb-label-city">Forbidden Island</div>
+                <div class="lb-label-mob">Midnight Spawn</div>
+            </div>
+            <!-- 10 -->
+            <div class="lb-creature">
+                <div class="lb-img-wrap">
+                    <img src="{{ url_for('static', filename='img/poh.gif') }}" alt="POH - Giant Spider">
+                </div>
+                <div class="lb-label-city">POH</div>
+                <div class="lb-label-mob">Midnight Warrior</div>
+            </div>
+        </div>
+    </section>
+
     {% if is_admin %}
     <!-- Formulario: agregar personaje (solo admin) -->
     <section class="card">

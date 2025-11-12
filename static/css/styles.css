@@ -527,3 +527,68 @@ td.level-cell {
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
 }
+
+
+.lb-creatures h2 {
+    margin-bottom: 4px;
+}
+
+.lb-subtitle {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 10px;
+}
+
+.lb-creatures-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.lb-creature {
+    background: rgba(3, 7, 18, 0.98);
+    border-radius: 10px;
+    padding: 6px 6px 8px;
+    border: 1px solid rgba(75, 85, 99, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+}
+
+.lb-img-wrap {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.lb-img-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    image-rendering: pixelated;
+}
+
+.lb-label-city {
+    font-size: 12px;
+    font-weight: 600;
+    color: #facc15;
+    text-align: center;
+}
+
+.lb-label-mob {
+    font-size: 11px;
+    color: #9ca3af;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .lb-creatures-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
