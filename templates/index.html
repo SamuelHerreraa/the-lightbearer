@@ -2,18 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>The Lightbearer - Tablero de Equipo</title>
+    <title>The Lightbearer - Team Board</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 <div class="app-container">
     <header>
         <div>
-            <h1>The Lightbearer - Control de Antorchas</h1>
-            <p>Tablero local para tu equipo. Filas = personajes, columnas = ciudades/antorchas.</p>
+            <h1>The Lightbearer - Torch Control</h1>
+            <p>Board for your team. Rows = characters, columns = cities/torches.</p>
         </div>
         <div class="header-right">
-            <div class="badge">Localhost</div>
+            <div class="badge">Online</div>
             {% if is_admin %}
                 <a href="{{ url_for('logout') }}" class="auth-btn logout">Cerrar sesión</a>
             {% else %}
@@ -24,87 +24,77 @@
 
     <!-- Grid de criaturas / ciudades Lightbearer -->
     <section class="card lb-creatures">
-        <h2>Zonas &amp; Criaturas del evento</h2>
+        <h2>Areas &amp; Event Creatures</h2>
         <p class="lb-subtitle">
-            Referencia rápida de cada antorcha: ciudad y criatura asociada.
+            Quick reference for each torch: city and associated creature.
         </p>
         <div class="lb-creatures-grid">
-            <!-- 1 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/yalahar.gif') }}" alt="Yalahar - Midnight Spawn">
+                    <img src="{{ url_for('static', filename='img/yalahar.gif') }}" alt="Yalahar - Duskbringer">
                 </div>
                 <div class="lb-label-city">Yalahar</div>
                 <div class="lb-label-mob">Duskbringer</div>
             </div>
-            <!-- 2 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/hellgate.gif') }}" alt="Hellgate - Demon">
+                    <img src="{{ url_for('static', filename='img/hellgate.gif') }}" alt="Hellgate - Nightslayer">
                 </div>
                 <div class="lb-label-city">Hellgate</div>
                 <div class="lb-label-mob">Nightslayer</div>
             </div>
-            <!-- 3 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/ankrahmun.gif') }}" alt="Ankrahmun - Sand Creature">
+                    <img src="{{ url_for('static', filename='img/ankrahmun.gif') }}" alt="Ankrahmun - Doomsday Cultist">
                 </div>
                 <div class="lb-label-city">Ankrahmun</div>
                 <div class="lb-label-mob">Doomsday Cultist</div>
             </div>
-            <!-- 4 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/darashia.gif') }}" alt="Darashia - Dragon Lord">
+                    <img src="{{ url_for('static', filename='img/darashia.gif') }}" alt="Darashia - Acolyte of Darkness">
                 </div>
                 <div class="lb-label-city">Darashia</div>
                 <div class="lb-label-mob">Acolyte of Darkness</div>
             </div>
-            <!-- 5 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/edron.gif') }}" alt="Edron - Grim Reaper">
+                    <img src="{{ url_for('static', filename='img/edron.gif') }}" alt="Edron - Herald of Gloom">
                 </div>
                 <div class="lb-label-city">Edron</div>
                 <div class="lb-label-mob">Herald of Gloom</div>
             </div>
-            <!-- 6 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/kazordoon.gif') }}" alt="Kazordoon - Dwarf Guard">
+                    <img src="{{ url_for('static', filename='img/kazordoon.gif') }}" alt="Kazordoon - Bride of Night">
                 </div>
                 <div class="lb-label-city">Kazordoon</div>
                 <div class="lb-label-mob">Bride of Night</div>
             </div>
-            <!-- 7 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/goroma.gif') }}" alt="Goroma - Hydra">
+                    <img src="{{ url_for('static', filename='img/goroma.gif') }}" alt="Goroma - Shadow Hound">
                 </div>
                 <div class="lb-label-city">Goroma</div>
                 <div class="lb-label-mob">Shadow Hound</div>
             </div>
-            <!-- 8 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/svargrond.gif') }}" alt="Svargrond - Frost Giant">
+                    <img src="{{ url_for('static', filename='img/svargrond.gif') }}" alt="Svargrond - Bane of Light">
                 </div>
                 <div class="lb-label-city">Svargrond</div>
                 <div class="lb-label-mob">Bane of Light</div>
             </div>
-            <!-- 9 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/forbidden_island.gif') }}" alt="Forbidden Island - Quara Mantassin">
+                    <img src="{{ url_for('static', filename='img/forbidden_island.gif') }}" alt="Forbidden Island - Midnight Spawn">
                 </div>
                 <div class="lb-label-city">Forbidden Island</div>
                 <div class="lb-label-mob">Midnight Spawn</div>
             </div>
-            <!-- 10 -->
             <div class="lb-creature">
                 <div class="lb-img-wrap">
-                    <img src="{{ url_for('static', filename='img/poh.gif') }}" alt="POH - Giant Spider">
+                    <img src="{{ url_for('static', filename='img/poh.gif') }}" alt="POH - Midnight Warrior">
                 </div>
                 <div class="lb-label-city">POH</div>
                 <div class="lb-label-mob">Midnight Warrior</div>
@@ -115,11 +105,11 @@
     {% if is_admin %}
     <!-- Formulario: agregar personaje (solo admin) -->
     <section class="card">
-        <h2>Agregar personaje</h2>
+        <h2>Add Character</h2>
         <form id="addCharacterForm">
-            <input type="text" id="charName" placeholder="Nombre del personaje" required>
-            <input type="number" id="charLevel" placeholder="Nivel" min="0">
-            <button type="submit">Agregar</button>
+            <input type="text" id="charName" placeholder="Name of the character" required>
+            <input type="number" id="charLevel" placeholder="Level" min="0">
+            <button type="submit">Add</button>
         </form>
     </section>
     {% else %}
@@ -136,14 +126,14 @@
     <!-- Filtros -->
     <section class="card filters">
         <div>
-            <label for="searchName">Buscar personaje:</label>
-            <input type="text" id="searchName" placeholder="Nombre o parte del nombre">
+            <label for="searchName">Find a character:</label>
+            <input type="text" id="searchName" placeholder="Name or part of name">
         </div>
 
         <div>
-            <label for="cityFilter">Ciudad:</label>
+            <label for="cityFilter">Cities:</label>
             <select id="cityFilter">
-                <option value="all">Todas</option>
+                <option value="all">All</option>
                 {% for city in cities %}
                     <option value="{{ city }}">{{ city }}</option>
                 {% endfor %}
@@ -153,9 +143,9 @@
         <!-- Barra de filtros por estado + contador -->
         <div class="status-filter-wrapper">
             <div class="status-filter">
-                <span class="status-pill active" data-status="all">Todos</span>
-                <span class="status-pill" data-status="pending">Pendientes</span>
-                <span class="status-pill" data-status="complete">Completados</span>
+                <span class="status-pill active" data-status="all">All</span>
+                <span class="status-pill" data-status="pending">Pending</span>
+                <span class="status-pill" data-status="complete">Completed</span>
             </div>
             <div class="status-count">
                 <span id="totalCount" class="status-count-pill">Total: 0</span>
@@ -169,7 +159,7 @@
             <table id="boardTable">
                 <thead>
                 <tr>
-                    <th>Personaje</th>
+                    <th>Character</th>
                     <th>Lvl</th>
                     {% for city in cities %}
                         <th class="city-col" data-city="{{ city }}">{{ city }}</th>
@@ -185,9 +175,9 @@
             </table>
         </div>
         <div class="legend">
-            <span class="dot done"></span> Ciudad completada ·
-            <span class="dot pending"></span> Pendiente ·
-            <span class="tag complete-row">Fila verde = personaje con todas las ciudades completas</span>
+            <span class="dot done"></span> City completed ·
+            <span class="dot pending"></span> Pending ·
+            <span class="tag complete-row">Fila verde = Character with all cities completed</span>
         </div>
     </section>
 </div>
@@ -196,6 +186,31 @@
     const CITIES = {{ cities | tojson }};
     const IS_ADMIN = {{ 'true' if is_admin else 'false' }};
 </script>
+
+<!-- Firebase SDK (compat, expone `firebase` global) -->
+<!-- USA ESTOS (compat mode) -->
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database-compat.js"></script>
+
+<script>
+  // ⚠️ PON AQUÍ TU CONFIG REAL DE FIREBASE
+  const firebaseConfig = {
+  apiKey: "AIzaSyDpmJMfSMJ8Hh7mm-QVgh8ftb9OxauHUYs",
+  authDomain: "lightbearer-dashboard.firebaseapp.com",
+  projectId: "lightbearer-dashboard",
+  storageBucket: "lightbearer-dashboard.firebasestorage.app",
+  messagingSenderId: "578461312567",
+  appId: "1:578461312567:web:9d16df22fcab386a5241b2"
+  };
+
+if (typeof firebase !== 'undefined') {
+    firebase.initializeApp(firebaseConfig);
+    console.log("Firebase inicializado correctamente");
+  } else {
+    console.error("Firebase no disponible");
+  }
+</script>
+
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

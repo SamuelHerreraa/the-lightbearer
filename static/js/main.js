@@ -4,11 +4,32 @@ const boardBody = document.getElementById("boardBody");
 const searchNameInput = document.getElementById("searchName");
 const cityFilterSelect = document.getElementById("cityFilter");
 const totalCountSpan = document.getElementById("totalCount");
+const addForm = document.getElementById("addCharacterForm");
 
 let currentStatusFilter = "all"; // all | pending | complete
 
-
 // ===== Helpers =====
+
+function getDB() {
+    if (typeof firebase === "undefined") {
+        console.error("Firebase no está cargado.");
+        return null;
+    }
+    try {
+        return firebase.database();
+    } catch (e) {
+        console.error("Firebase no inicializado correctamente:", e);
+        return null;
+    }
+}
+
+function normalizeCities(citiesObj = {}) {
+    const normalized = {};
+    CITIES.forEach(city => {
+        normalized[city] = !!citiesObj[city];
+    });
+    return normalized;
+}
 
 function isCharacterComplete(char) {
     return CITIES.every(city => char.cities[city]);
@@ -19,49 +40,38 @@ function countDoneCities(char) {
 }
 
 function sortCharacters(list) {
-    const totalCities = CITIES.length;
     const incompletos = [];
     const completos = [];
 
     list.forEach(char => {
         const done = countDoneCities(char);
-        if (done === totalCities) {
-            completos.push(char);   // todos completos → van al final
+        if (done === CITIES.length) {
+            completos.push(char);   // todos completos → bloque final
         } else {
-            incompletos.push(char); // pendientes → se ordenan por progreso
+            incompletos.push(char); // pendientes → por progreso
         }
     });
 
     incompletos.sort((a, b) => {
         const aDone = countDoneCities(a);
         const bDone = countDoneCities(b);
-        if (bDone !== aDone) {
-            return bDone - aDone; // más checks arriba
-        }
+        if (bDone !== aDone) return bDone - aDone;
         return a.name.localeCompare(b.name);
     });
 
     completos.sort((a, b) => a.name.localeCompare(b.name));
-
     return incompletos.concat(completos);
 }
 
 function applyFilters(list) {
-    const searchText = searchNameInput.value.trim().toLowerCase();
+    const searchText = (searchNameInput?.value || "").trim().toLowerCase();
 
     return list.filter(char => {
-        if (searchText && !char.name.toLowerCase().includes(searchText)) {
-            return false;
-        }
+        if (searchText && !char.name.toLowerCase().includes(searchText)) return false;
 
         const complete = isCharacterComplete(char);
-
-        if (currentStatusFilter === "pending" && complete) {
-            return false;
-        }
-        if (currentStatusFilter === "complete" && !complete) {
-            return false;
-        }
+        if (currentStatusFilter === "pending" && complete) return false;
+        if (currentStatusFilter === "complete" && !complete) return false;
 
         return true;
     });
@@ -72,8 +82,8 @@ function updateTotalCount() {
     totalCountSpan.textContent = `Total: ${characters.length}`;
 }
 
-
 function updateCityColumnsVisibility() {
+    if (!cityFilterSelect) return;
     const selectedCity = cityFilterSelect.value;
     const ths = document.querySelectorAll("th.city-col");
     const rows = document.querySelectorAll("#boardBody tr");
@@ -104,9 +114,7 @@ function renderTable() {
 
     sorted.forEach(char => {
         const tr = document.createElement("tr");
-        if (isCharacterComplete(char)) {
-            tr.classList.add("row-complete");
-        }
+        if (isCharacterComplete(char)) tr.classList.add("row-complete");
 
         // Nombre
         const nameTd = document.createElement("td");
@@ -135,7 +143,6 @@ function renderTable() {
                     toggleCity(char.id, city, input.checked);
                 });
             } else {
-                // Solo lectura: sin eventos, sin pointer
                 input.disabled = true;
                 input.style.cursor = "default";
             }
@@ -144,7 +151,7 @@ function renderTable() {
             tr.appendChild(td);
         });
 
-        // Acciones solo si es admin
+        // Acciones solo admin
         if (IS_ADMIN) {
             const actionsTd = document.createElement("td");
             actionsTd.className = "actions-cell";
@@ -171,38 +178,92 @@ function renderTable() {
     updateTotalCount();
 }
 
-// ===== API =====
+// ===== Firebase Sync =====
 
-async function fetchCharacters() {
-    const res = await fetch("/api/characters");
-    characters = await res.json();
-    renderTable();
+function subscribeToCharacters() {
+    const db = getDB();
+    if (!db) return;
+
+    db.ref("characters").on(
+        "value",
+        snapshot => {
+            const data = snapshot.val() || {};
+            const list = [];
+
+            Object.entries(data).forEach(([id, value]) => {
+                list.push({
+                    id,
+                    name: value.name || "",
+                    level: value.level || 0,
+                    cities: normalizeCities(value.cities || {})
+                });
+            });
+
+            characters = list;
+            renderTable();
+        },
+        error => {
+            console.error("Error escuchando characters en Firebase:", error);
+        }
+    );
 }
+
+// ===== CRUD Firebase =====
+
+function addCharacterToDB(name, level) {
+    const db = getDB();
+    if (!db) return Promise.reject("DB no disponible");
+
+    const ref = db.ref("characters").push();
+    const char = {
+        name,
+        level: Number(level) || 0,
+        cities: normalizeCities({})
+    };
+    return ref.set(char);
+}
+
+function updateCharacterInDB(id, updates) {
+    const db = getDB();
+    if (!db) return Promise.reject("DB no disponible");
+    return db.ref(`characters/${id}`).update(updates);
+}
+
+function deleteCharacterFromDB(id) {
+    const db = getDB();
+    if (!db) return Promise.reject("DB no disponible");
+    return db.ref(`characters/${id}`).remove();
+}
+
+function toggleCityInDB(id, city, done) {
+    const db = getDB();
+    if (!db) return Promise.reject("DB no disponible");
+    return db.ref(`characters/${id}/cities/${city}`).set(!!done);
+}
+
+// ===== Handlers UI =====
 
 async function addCharacter(ev) {
     ev.preventDefault();
-    if (!IS_ADMIN) return;
+
+    if (!IS_ADMIN) {
+        console.warn("Intento de agregar sin ser admin.");
+        return;
+    }
 
     const name = document.getElementById("charName").value.trim();
     const level = document.getElementById("charLevel").value;
 
     if (!name) return;
 
-    const res = await fetch("/api/characters", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({name, level})
-    });
-
-    if (!res.ok) return;
-
-    const newChar = await res.json();
-    characters.push(newChar);
-
-    document.getElementById("charName").value = "";
-    document.getElementById("charLevel").value = "";
-
-    renderTable();
+    try {
+        await addCharacterToDB(name, level);
+        document.getElementById("charName").value = "";
+        document.getElementById("charLevel").value = "";
+    } catch (err) {
+        console.error("Error agregando personaje en Firebase:", err);
+        alert("No se pudo agregar el personaje. Revisa la consola.");
+    }
 }
 
 async function editCharacter(char) {
@@ -214,19 +275,13 @@ async function editCharacter(char) {
     const newLevel = prompt("Nuevo nivel:", char.level);
     if (newLevel === null) return;
 
-    const res = await fetch(`/api/characters/${char.id}`, {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({name: newName, level: newLevel})
-    });
-
-    if (!res.ok) return;
-
-    const updated = await res.json();
-    const idx = characters.findIndex(c => c.id === char.id);
-    if (idx !== -1) {
-        characters[idx] = updated;
-        renderTable();
+    try {
+        await updateCharacterInDB(char.id, {
+            name: newName.trim() || char.name,
+            level: Number(newLevel) || char.level
+        });
+    } catch (err) {
+        console.error("Error editando personaje:", err);
     }
 }
 
@@ -234,35 +289,20 @@ async function deleteCharacter(id) {
     if (!IS_ADMIN) return;
     if (!confirm("¿Eliminar este personaje?")) return;
 
-    const res = await fetch(`/api/characters/${id}`, {
-        method: "DELETE"
-    });
-
-    if (!res.ok) return;
-
-    characters = characters.filter(c => c.id !== id);
-    renderTable();
+    try {
+        await deleteCharacterFromDB(id);
+    } catch (err) {
+        console.error("Error eliminando personaje:", err);
+    }
 }
 
-async function toggleCity(charId, city, done) {
+async function toggleCity(id, city, done) {
     if (!IS_ADMIN) return;
 
-    const res = await fetch(`/api/characters/${charId}/toggle`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({city, done})
-    });
-
-    if (!res.ok) {
-        await fetchCharacters(); // rollback si fallo
-        return;
-    }
-
-    const updated = await res.json();
-    const idx = characters.findIndex(c => c.id === charId);
-    if (idx !== -1) {
-        characters[idx] = updated;
-        renderTable();
+    try {
+        await toggleCityInDB(id, city, done);
+    } catch (err) {
+        console.error("Error cambiando estado de ciudad:", err);
     }
 }
 
@@ -280,18 +320,21 @@ function setupStatusFilter() {
     });
 }
 
-// ===== Events init =====
-
-if (document.getElementById("addCharacterForm")) {
-    document.getElementById("addCharacterForm").addEventListener("submit", addCharacter);
-}
-
-searchNameInput.addEventListener("input", renderTable);
-cityFilterSelect.addEventListener("change", () => {
-    renderTable();
-});
+// ===== Init =====
 
 window.addEventListener("DOMContentLoaded", () => {
+    if (addForm) {
+        addForm.addEventListener("submit", addCharacter);
+    }
+
+    if (searchNameInput) {
+        searchNameInput.addEventListener("input", renderTable);
+    }
+
+    if (cityFilterSelect) {
+        cityFilterSelect.addEventListener("change", renderTable);
+    }
+
     setupStatusFilter();
-    fetchCharacters();
+    subscribeToCharacters();
 });
