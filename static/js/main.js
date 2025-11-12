@@ -104,12 +104,12 @@ function updateGlobalTimer() {
 
     // === CONFIGURACIÓN DE TIEMPO ===
     // PARA PRUEBAS: 5 minutos + 1 minuto de riesgo
-    const idealMs = 5 * 60 * 1000;           // 5 minutos
-    const riskMs = idealMs + 60 * 1000;      // +1 minuto (riesgo)
+    // const idealMs = 5 * 60 * 1000;           // 5 minutos
+    // const riskMs = idealMs + 60 * 1000;      // +1 minuto (riesgo)
 
     // === PARA PRODUCCIÓN: descomenta esto ===
-    // const idealMs = 2 * 60 * 60 * 1000;     // 2 horas
-    // const riskMs = idealMs + 30 * 60 * 1000; // +30 minutos
+    const idealMs = 2 * 60 * 60 * 1000;     // 2 horas
+    const riskMs = idealMs + 30 * 60 * 1000; // +30 minutos
 
     // === Hora ideal (HH:MM) ===
     const nextIdeal = new Date(globalLastAction + idealMs);
